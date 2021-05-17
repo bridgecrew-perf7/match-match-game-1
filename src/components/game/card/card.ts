@@ -4,15 +4,21 @@ import './card.scss';
 const FLIP_CLASS = 'flipped';
 
 export class Card extends BaseComponent {
+  private card: BaseComponent;
+
+  private cardFront: BaseComponent;
+
+  private cardBack: BaseComponent;
+
   constructor(readonly image: string) {
     super('div', ['card-container']);
+    this.image = image;
 
-    this.element.innerHTML = `
-      <div class="card">
-        <div class="card__front" style="background-image: url('./assets/game/images/${image}')"></div>
-        <div class="card__back"></div>
-      </div>
-    `;
+    this.card = new BaseComponent('div', ['card']);
+    this.cardFront = new BaseComponent('div', ['card__front']);
+    this.cardBack = new BaseComponent('div', ['card__back']);
+
+    this.render();
   }
 
   success(): void {
@@ -38,5 +44,15 @@ export class Card extends BaseComponent {
         once: true,
       });
     });
+  }
+
+  render(): void {
+    this.cardFront.element.setAttribute(
+      'style',
+      `background-image: url('./assets/game/images/${this.image}')`,
+    );
+
+    this.card.element.append(this.cardFront.element, this.cardBack.element);
+    this.element.appendChild(this.card.element);
   }
 }

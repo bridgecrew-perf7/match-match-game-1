@@ -2,12 +2,14 @@ import { BaseComponent } from '../../../utils/base-component';
 import './game-timer.scss';
 
 interface ITimer {
-  min: number,
-  sec: number
+  min: number;
+  sec: number;
 }
 
 export class GameTimer extends BaseComponent {
   private timer: ITimer;
+
+  private span: BaseComponent;
 
   constructor() {
     super('div', ['game-timer']);
@@ -16,9 +18,8 @@ export class GameTimer extends BaseComponent {
       sec: 0,
     };
 
-    this.element.innerHTML = `
-      <span class="text-36">00:00</span>
-    `;
+    this.span = new BaseComponent('span', ['text-36']);
+    this.render();
   }
 
   startTrack(): void {
@@ -30,9 +31,10 @@ export class GameTimer extends BaseComponent {
         this.timer.sec = 0;
       }
 
-      this.element.innerHTML = `
-        <span class="text-36">${this.timeFormat(this.timer.min)}:${this.timeFormat(this.timer.sec)}</span>
-      `;
+      // Update ui timer
+      this.span.element.innerText = `${this.timeFormat(
+        this.timer.min,
+      )}:${this.timeFormat(this.timer.sec)}`;
     }, 1000);
   }
 
@@ -42,5 +44,10 @@ export class GameTimer extends BaseComponent {
     } else {
       return `${time < 10 ? `0${time}` : `${time}`}`;
     }
+  }
+
+  render(): void {
+    this.span.element.innerText = '00:00';
+    this.element.appendChild(this.span.element);
   }
 }

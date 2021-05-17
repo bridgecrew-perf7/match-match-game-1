@@ -3,18 +3,33 @@ import { BaseComponent } from '../../../utils/base-component';
 import './select.scss';
 
 export class Select extends BaseComponent {
+  private selectData: ISelectData;
+
   constructor(selectData: ISelectData) {
     super('select', ['select']);
-    this.element.setAttribute('name', selectData.id);
-    this.element.setAttribute('id', selectData.id);
+    this.selectData = selectData;
 
-    const options = selectData.options.map((option) => `
-      <option 
-        ${option.selected ? 'selected disabled' : ''}
-        value="${option.value}">
-        ${option.title}
-      </option>`);
+    this.render();
+  }
 
-    this.element.innerHTML = `${options}`;
+  render(): void {
+    this.element.setAttribute('name', this.selectData.id);
+    this.element.setAttribute('id', this.selectData.id);
+
+    const options = this.selectData.options.map((optionData) => {
+      const option = new BaseComponent('option');
+
+      if (optionData.selected) {
+        option.element.setAttribute('selected', '');
+        option.element.setAttribute('disabled', '');
+      }
+
+      option.element.setAttribute('value', optionData.value);
+      option.element.innerText = optionData.title;
+
+      return option.element;
+    });
+
+    options.forEach((option) => this.element.appendChild(option));
   }
 }

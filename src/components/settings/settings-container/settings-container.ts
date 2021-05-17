@@ -9,7 +9,15 @@ export class SettingsContainer extends BaseComponent {
 
   constructor(state: Array<ISelectData>) {
     super('div', ['settings__config']);
-    this.settingsSelect = state.map((selectData) => new SettingsSelect(selectData));
-    this.settingsSelect.forEach((item) => this.element.appendChild(item.element));
+    this.settingsSelect = state.map(
+      (selectData) => new SettingsSelect(selectData),
+    );
+    this.render();
+  }
+
+  render(): void {
+    this.settingsSelect.forEach((item) => {
+      this.element.appendChild(item.element);
+    });
   }
 }

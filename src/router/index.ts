@@ -37,7 +37,7 @@ export class Router {
       {
         name: '/game',
         component: async () => {
-          this.Game = new Game();
+          this.Game = await new Game();
           this.rootElement.appendChild(this.Game.element);
         },
       },

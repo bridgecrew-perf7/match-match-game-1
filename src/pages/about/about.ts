@@ -9,10 +9,7 @@ export class About extends BaseComponent {
   constructor() {
     super('div', ['hot-to-play', 'container']);
 
-    const title = new BaseComponent('h2', ['text-20'], 'How To Play?');
-    this.element.appendChild(title.element);
-
-    this.renderAboutCards();
+    this.render();
   }
 
   async renderAboutCards(): Promise<void> {
@@ -27,5 +24,12 @@ export class About extends BaseComponent {
     } catch (err) {
       throw new Error('About cards not fetched...');
     }
+  }
+
+  render(): void {
+    const title = new BaseComponent('h2', ['text-20'], 'How To Play?');
+    this.element.appendChild(title.element);
+
+    this.renderAboutCards();
   }
 }

@@ -1,0 +1,48 @@
+[
+  {
+    "selects": [
+      {
+        "title": "Game cards",
+        "id": "game-cards",
+        "options": [
+          {
+            "title": "select game cards type",
+            "value": "none",
+            "selected": "selected"
+          },
+          {
+            "title": "animals",
+            "value": "animals"
+          },
+          {
+            "title": "cars",
+            "value": "cars"
+          }
+        ]
+      },
+      {
+        "title": "Difficulty",
+        "id": "difficulty",
+        "options": [
+          {
+            "title": "select game type",
+            "value": "none",
+            "selected": "selected"
+          },
+          {
+            "title": "4 x 4",
+            "value": "4"
+          },
+          {
+            "title": "6 x 6",
+            "value": "6"
+          },
+          {
+            "title": "8 x 8",
+            "value": "8"
+          }
+        ]
+      }
+    ]
+  }
+]
