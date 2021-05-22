@@ -34,10 +34,6 @@
   left: 0;
   cursor: pointer;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
 }
 
 .card-success::before,
@@ -78,10 +74,6 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
 }
 
 .card__back {
@@ -90,10 +82,6 @@
   background-size: 100%;
   background-repeat: no-repeat;
   transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -ms-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
 }
 
 .card__front {

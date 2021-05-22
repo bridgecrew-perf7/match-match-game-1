@@ -16,11 +16,11 @@
   line-height: 3;
   background: $white;
   overflow: hidden;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .settings__select::after {
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
@@ -29,9 +29,7 @@
   color: rgba(0, 0, 0, 0.54);
   cursor: pointer;
   pointer-events: none;
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
+  transition: 0.25s all ease;
 }
 /* Transition */
 .settings__select:hover::after {

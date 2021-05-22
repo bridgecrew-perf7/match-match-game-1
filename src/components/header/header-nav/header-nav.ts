@@ -1,5 +1,7 @@
 import { BaseComponent } from '../../../utils/base-component';
 
+import './header-nav.scss';
+
 export class HeaderNav extends BaseComponent {
   private Items = [
     {
