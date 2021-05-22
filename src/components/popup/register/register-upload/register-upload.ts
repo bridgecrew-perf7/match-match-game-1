@@ -1,4 +1,6 @@
-import { BaseComponent } from '../../../utils/base-component';
+import { BaseComponent } from '../../../../utils/base-component';
+
+import './register-upload.scss';
 
 export class RegisterUpload extends BaseComponent {
   constructor() {

@@ -1,8 +1,10 @@
-import { BaseComponent } from '../../../utils/base-component';
-import { RegisterUpload } from './register-upload';
-import { RegisterInputs } from './register-inputs';
-import { IUserData } from '../../../models/user-data-model';
-import { RegisterButtons } from './register-buttons';
+import { BaseComponent } from '../../../../utils/base-component';
+import { RegisterUpload } from '../register-upload/register-upload';
+import { RegisterInputs } from '../register-inputs/register-inputs';
+import { IUserData } from '../../../../models/user-data-model';
+import { RegisterButtons } from '../register-buttons/register-buttons';
+
+import './register-container.scss';
 
 export class RegisterContainer extends BaseComponent {
   hidePopupCancel: () => void = () => {};

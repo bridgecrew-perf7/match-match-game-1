@@ -1,8 +1,10 @@
-import { IUserData } from '../../../models/user-data-model';
-import { BaseComponent } from '../../../utils/base-component';
-import { isValidEmail } from '../../shared/isValidEmail';
-import { isUsernameValid } from '../../shared/isValidUsername';
-import { InputGroup } from '../../UI/input/input';
+import { IUserData } from '../../../../models/user-data-model';
+import { BaseComponent } from '../../../../utils/base-component';
+import { isValidEmail } from '../../../shared/isValidEmail';
+import { isUsernameValid } from '../../../shared/isValidUsername';
+import { InputGroup } from '../../../UI/input/input';
+
+import './register-inputs.scss';
 
 export class RegisterInputs extends BaseComponent {
   checkInputs: () => void = () => {};

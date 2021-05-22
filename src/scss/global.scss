@@ -36,6 +36,11 @@ a {
     text-decoration: none;
 }
 
+input,
+button {
+    outline: none;
+}
+
 .btn {
     font-family: "Roboto", sans-serif;
     min-height: 36px;

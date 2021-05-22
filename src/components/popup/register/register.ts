@@ -1,6 +1,8 @@
 import { IUserData } from '../../../models/user-data-model';
 import { BaseComponent } from '../../../utils/base-component';
-import { RegisterContainer } from './register-container';
+import { RegisterContainer } from './register-container/register-container';
+
+import './register.scss';
 
 export class PopupRegister extends BaseComponent {
   hidePopupCancel: () => void = () => {};

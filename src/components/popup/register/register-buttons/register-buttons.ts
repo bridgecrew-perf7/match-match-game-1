@@ -1,5 +1,7 @@
-import { BaseComponent } from '../../../utils/base-component';
-import { Button } from '../../UI/button/button';
+import { BaseComponent } from '../../../../utils/base-component';
+import { Button } from '../../../UI/button/button';
+
+import './register-button.scss';
 
 export class RegisterButtons extends BaseComponent {
   hidePopupCancel: () => void = () => {};
