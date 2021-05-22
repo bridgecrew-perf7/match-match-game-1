@@ -1,6 +1,6 @@
 import { BaseComponent } from '../../utils/base-component';
 import './popup.scss';
-import { PopupRegister } from './popup-register/popup-register';
+import { PopupRegister } from './register/register';
 
 export class Popup extends BaseComponent {
   private registerPopup: PopupRegister;

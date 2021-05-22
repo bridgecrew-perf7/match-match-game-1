@@ -1,0 +1,57 @@
+import { BaseComponent } from '../../../utils/base-component';
+import { RegisterUpload } from './register-upload';
+import { RegisterInputs } from './register-inputs';
+import { IUserData } from '../../../models/user-data-model';
+import { RegisterButtons } from './register-buttons';
+
+export class RegisterContainer extends BaseComponent {
+  hidePopupCancel: () => void = () => {};
+
+  state: IUserData;
+
+  private registerButtons;
+
+  constructor() {
+    super('div', ['popup__form']);
+
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+    };
+
+    const registerUpload = new RegisterUpload();
+
+    this.registerButtons = new RegisterButtons();
+    this.registerButtons.hidePopupCancel = () => this.hidePopupCancel();
+
+    const inputsBlock = new RegisterInputs(this.state);
+    inputsBlock.checkInputs = () => this.checkInputs();
+
+    const formContent = new BaseComponent('div', ['form__content']);
+    formContent.element.append(inputsBlock.element, registerUpload.element);
+
+    const form = new BaseComponent('form', ['form']);
+    form.element.append(formContent.element, this.registerButtons.element);
+    form.element.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.submitForm();
+    });
+
+    this.element.appendChild(form.element);
+  }
+
+  checkInputs(): void {
+    const { firstName, lastName, email } = this.state;
+
+    if (firstName !== '' && lastName !== '' && email !== '') {
+      this.registerButtons.toggleDisabled(false);
+    } else {
+      this.registerButtons.toggleDisabled(true);
+    }
+  }
+
+  submitForm(): void {
+    const res = JSON.stringify(this.state);
+  }
+}
