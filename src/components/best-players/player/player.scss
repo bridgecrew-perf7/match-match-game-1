@@ -3,7 +3,8 @@
   padding: 18px 0 10px;
 }
 
-.player, .player__personal {
+.player,
+.player__personal {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -20,6 +21,9 @@
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+  img {
+    width: 100%;
+  }
 }
 
 .player__score .score {

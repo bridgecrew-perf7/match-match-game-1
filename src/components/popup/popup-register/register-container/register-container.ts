@@ -21,9 +21,13 @@ export class RegisterContainer extends BaseComponent {
       firstName: '',
       lastName: '',
       email: '',
+      img: '',
     };
 
     const registerUpload = new RegisterUpload();
+    registerUpload.getImg = (image) => {
+      this.state.img = image;
+    };
 
     this.registerButtons = new RegisterButtons();
     this.registerButtons.hidePopupCancel = () => this.hidePopupCancel();

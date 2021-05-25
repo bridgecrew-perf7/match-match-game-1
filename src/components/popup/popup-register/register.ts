@@ -16,6 +16,7 @@ export class PopupRegister extends BaseComponent {
       firstName: '',
       lastName: '',
       email: '',
+      img: '',
     };
 
     this.render();

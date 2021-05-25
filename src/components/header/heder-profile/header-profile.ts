@@ -1,14 +1,16 @@
 import { BaseComponent } from '../../../utils/base-component';
 import './header-profile.scss';
 import { Button } from '../../UI/button/button';
+import { IUserData } from '../../../models/user-data-model';
 
 export class HeaderProfile extends BaseComponent {
   onMyButtonClick: () => void = () => {};
   startGame: () => void = () => {};
-  private user: string | undefined;
+  private user: IUserData | null | undefined;
   private buttonStart: BaseComponent;
   private buttonRegister: Button;
   private buttonLogOut: Button;
+  private image = new Image();
 
   constructor() {
     super('div', ['header__profile', 'profile']);
@@ -36,6 +38,8 @@ export class HeaderProfile extends BaseComponent {
       this.updateButtons();
     };
 
+    this.image.classList.add('profile__img');
+
     this.render();
   }
 
@@ -44,12 +48,19 @@ export class HeaderProfile extends BaseComponent {
   }
 
   render(): void {
-    this.user = localStorage.getItem('user') || '';
+    this.user = null;
+    const userFromLocal = localStorage.getItem('user');
+    if (userFromLocal) this.user = JSON.parse(userFromLocal);
+
     this.element.innerHTML = '';
 
     this.element.append(
       this.user ? this.buttonStart.element : this.buttonRegister.element,
       this.user ? this.buttonLogOut.element : this.buttonRegister.element,
     );
+
+    const anonymousImage = '/assets/upload-image/user.png';
+    this.image.src = this.user?.img || anonymousImage;
+    if (this.user) this.element.appendChild(this.image);
   }
 }
