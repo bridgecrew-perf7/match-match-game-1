@@ -4,7 +4,7 @@ import { CardField } from '../../components/game/cards-field/cards-field';
 import { delay } from '../../components/shared/delay';
 import { GameTimer } from '../../components/game/game-timer/game-timer';
 import { ImageCategoryModel } from '../../models/image-category-model';
-import { PopupCongratulations } from '../../components/popup-congratulations/congratulations';
+import { PopupCongratulations } from '../../components/popup/popup-congratulations/congratulations';
 
 const FLIP_DELAY = 1500;
 export class Game extends BaseComponent {

@@ -1,14 +1,13 @@
 import { Header } from './components/header/header';
 import { Router } from './router';
 import { BaseComponent } from './utils/base-component';
-import { Popup } from './components/popup/popup';
+import { PopupRegister } from './components/popup/popup-register/register';
 
 export class App {
-  private readonly header: Header;
-
+  private header: Header;
   private readonly router: Router;
-
   private main = new BaseComponent('main', ['main']);
+  private readonly registerPopup: PopupRegister = new PopupRegister();
 
   constructor(private readonly rootElement: HTMLElement) {
     this.header = new Header();
@@ -16,12 +15,18 @@ export class App {
   }
 
   render(): void {
-    const popup = new Popup();
     this.header.onMyButtonClick = () => {
-      popup.showPopup('register');
+      this.rootElement.appendChild(this.registerPopup.element);
+
+      this.registerPopup.hidePopupCancel = () => {
+        this.registerPopup.element.remove();
+      };
     };
 
-    this.rootElement.appendChild(popup.element);
+    this.registerPopup.updateHeader = () => {
+      this.header.updateButtons();
+    };
+
     this.rootElement.appendChild(this.header.element);
     this.rootElement.appendChild(this.main.element);
 

@@ -16,7 +16,6 @@ export class SettingsSelect extends BaseComponent {
     this.title = new BaseComponent('h3', ['text-20']);
     this.selectBlock = new BaseComponent('div', ['settings__select']);
     this.select = new Select(selectData);
-    this.select.element.setAttribute('selected', 'selected');
     this.select.changeSelect = (event) => this.changeSelect(event);
 
     this.render();

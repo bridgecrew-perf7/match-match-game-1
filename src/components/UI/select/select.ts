@@ -26,7 +26,6 @@ export class Select extends BaseComponent {
 
       if (optionData.selected) {
         option.element.setAttribute('selected', '');
-        option.element.setAttribute('disabled', '');
       }
 
       option.element.setAttribute('value', optionData.value);
@@ -35,6 +34,12 @@ export class Select extends BaseComponent {
       return option.element;
     });
 
-    options.forEach((option) => this.element.appendChild(option));
+    options.forEach((option, index) => {
+      if (index === 0) {
+        option.setAttribute('disabled', '');
+      }
+
+      this.element.appendChild(option);
+    });
   }
 }

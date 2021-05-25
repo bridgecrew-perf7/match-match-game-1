@@ -6,11 +6,9 @@ import { HeaderProfile } from './heder-profile/header-profile';
 
 export class Header extends BaseComponent {
   onMyButtonClick: () => void = () => {};
-
+  updateButtons: () => void = () => {};
   private headerLogo: HeaderLogo | undefined;
-
   private headerNav: HeaderNav | undefined;
-
   private headerProfile: HeaderProfile | undefined;
 
   constructor() {
@@ -31,6 +29,7 @@ export class Header extends BaseComponent {
     this.headerProfile.onMyButtonClick = () => {
       this.onMyButtonClick();
     };
+    this.updateButtons = () => this.headerProfile?.render();
 
     container.element.appendChild(this.headerLogo.element);
     container.element.appendChild(this.headerNav.element);
