@@ -4,12 +4,17 @@ import './select.scss';
 
 export class Select extends BaseComponent {
   private selectData: ISelectData;
+  changeSelect: (event: Event) => void = () => {};
 
   constructor(selectData: ISelectData) {
     super('select', ['select']);
     this.selectData = selectData;
 
     this.render();
+
+    this.element.addEventListener('change', (event: Event) =>
+      this.changeSelect(event),
+    );
   }
 
   render(): void {

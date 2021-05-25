@@ -1,7 +1,7 @@
 export function isValidEmail(value: string): string | boolean {
   const errors = [
-    'Имя не может быть пустым',
-    'должен соответствовать стандартному правилу формированию email',
+    'Email cannot be empty',
+    'Must comply with the standard email generation rule',
   ];
 
   const emailValidation =

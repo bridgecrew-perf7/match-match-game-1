@@ -4,12 +4,10 @@ import { Select } from '../../UI/select/select';
 
 export class SettingsSelect extends BaseComponent {
   private selectData: ISelectData;
-
   private title: BaseComponent;
-
   private selectBlock: BaseComponent;
-
-  private select: BaseComponent;
+  private select: Select;
+  private id: string | undefined;
 
   constructor(selectData: ISelectData) {
     super('div', ['settings__block']);
@@ -18,8 +16,18 @@ export class SettingsSelect extends BaseComponent {
     this.title = new BaseComponent('h3', ['text-20']);
     this.selectBlock = new BaseComponent('div', ['settings__select']);
     this.select = new Select(selectData);
+    this.select.element.setAttribute('selected', 'selected');
+    this.select.changeSelect = (event) => this.changeSelect(event);
 
     this.render();
+  }
+
+  changeSelect(event: Event): void {
+    const el = event.target as HTMLOptionElement;
+
+    this.id = String(el.id);
+
+    localStorage.setItem(this.id, JSON.stringify(el.value));
   }
 
   render(): void {

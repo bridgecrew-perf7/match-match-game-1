@@ -1,8 +1,8 @@
 export function isUsernameValid(value: string): string | boolean {
   const errors = [
-    'Имя не может быть пустым',
-    'Имя не может состоять из цифр',
-    'Имя не может содержать служебные символы',
+    'The name cannot be empty',
+    'The name cannot contains number',
+    'The name cannot contain service characters',
   ];
 
   if (value === '') {

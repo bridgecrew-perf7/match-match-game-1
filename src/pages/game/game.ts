@@ -4,20 +4,19 @@ import { CardField } from '../../components/game/cards-field/cards-field';
 import { delay } from '../../components/shared/delay';
 import { GameTimer } from '../../components/game/game-timer/game-timer';
 import { ImageCategoryModel } from '../../models/image-category-model';
+import { PopupCongratulations } from '../../components/popup-congratulations/congratulations';
 
 const FLIP_DELAY = 1500;
-const CARDS = 8;
-
 export class Game extends BaseComponent {
   private readonly cardsFields: CardField;
-
   private readonly gameTimer: GameTimer;
-
+  private popupCongratulations: PopupCongratulations | undefined;
   private activeCard?: Card;
-
   private isAnimation = false;
-
-  correctAnswers: number;
+  private correctAnswers: number;
+  private notCorrectAnswers: number;
+  private CARDS = Number(JSON.parse(localStorage.getItem('difficulty') || '4'));
+  private TYPE = JSON.parse(localStorage.getItem('game-cards') || 'animals');
 
   constructor() {
     super('div', ['game', 'container']);
@@ -29,6 +28,7 @@ export class Game extends BaseComponent {
     this.getImages();
 
     this.correctAnswers = 0;
+    this.notCorrectAnswers = 0;
   }
 
   newGame(images: string[]): void {
@@ -52,9 +52,10 @@ export class Game extends BaseComponent {
     const res = await fetch('gameImages.json');
     const categories: ImageCategoryModel[] = await res.json();
 
-    const cat = categories[0];
+    const cat = categories.filter((item) => item.category === this.TYPE)[0];
+
     const images = cat.images
-      .slice(0, CARDS)
+      .slice(0, (this.CARDS * this.CARDS) / 2)
       .map((name) => `${cat.category}/${name}`);
 
     this.newGame(images);
@@ -73,6 +74,7 @@ export class Game extends BaseComponent {
     }
 
     if (this.activeCard.image !== card.image) {
+      this.notCorrectAnswers++;
       this.activeCard.error(true);
       card.error(true);
 
@@ -86,6 +88,23 @@ export class Game extends BaseComponent {
       ]);
     } else {
       this.correctAnswers++;
+
+      if (this.correctAnswers === this.CARDS * 2) {
+        const time = this.gameTimer.stopTimer();
+        this.popupCongratulations = new PopupCongratulations(time);
+
+        // score
+        const compares = this.correctAnswers + this.notCorrectAnswers;
+        const timeInSeconds = (time.min * 60 + time.sec) * 10;
+
+        localStorage.setItem(
+          'score',
+          `${(compares - this.notCorrectAnswers) * 100 - timeInSeconds}`,
+        );
+
+        this.element.append(this.popupCongratulations.element);
+      }
+
       card.success();
       this.activeCard.success();
     }

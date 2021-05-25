@@ -6,9 +6,11 @@ const SHOW_TIME = 3;
 
 export class CardField extends BaseComponent {
   private cards: Card[] = [];
+  private TYPE = JSON.parse(localStorage.getItem('difficulty') || '4');
 
   constructor() {
     super('div', ['cards-field']);
+    this.element.classList.add(`cards-field-${this.TYPE}`);
   }
 
   clear(): void {

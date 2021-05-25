@@ -8,8 +8,8 @@ interface ITimer {
 
 export class GameTimer extends BaseComponent {
   private timer: ITimer;
-
   private span: BaseComponent;
+  private interval: ReturnType<typeof setInterval> | undefined;
 
   constructor() {
     super('div', ['game-timer']);
@@ -22,20 +22,30 @@ export class GameTimer extends BaseComponent {
     this.render();
   }
 
+  private gameTimer(): void {
+    this.timer.sec++;
+
+    if (this.timer.sec === 60) {
+      this.timer.min++;
+      this.timer.sec = 0;
+    }
+
+    // Update ui timer
+    this.span.element.innerText = `${this.timeFormat(
+      this.timer.min,
+    )}:${this.timeFormat(this.timer.sec)}`;
+  }
+
   startTrack(): void {
-    setInterval(() => {
-      this.timer.sec++;
+    this.interval = setInterval(() => this.gameTimer(), 1000);
+  }
 
-      if (this.timer.sec === 60) {
-        this.timer.min++;
-        this.timer.sec = 0;
-      }
+  stopTimer(): ITimer {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
 
-      // Update ui timer
-      this.span.element.innerText = `${this.timeFormat(
-        this.timer.min,
-      )}:${this.timeFormat(this.timer.sec)}`;
-    }, 1000);
+    return this.timer;
   }
 
   private timeFormat(time: number) {

@@ -36,6 +36,10 @@
   border-radius: 5px;
 }
 
+.card-success {
+  pointer-events: none;
+}
+
 .card-success::before,
 .card-error::before {
   content: "";

@@ -4,4 +4,10 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  &.cards-field-6 {
+    .card-container {
+      flex: 0 0 110px;
+      height: 110px;
+    }
+  }
 }
