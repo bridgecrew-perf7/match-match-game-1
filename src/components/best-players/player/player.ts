@@ -11,23 +11,20 @@ export class Player extends BaseComponent {
 
   render(): void {
     const anonymousImage = '/assets/upload-image/user.png';
+    const { img, username, mail, score } = this.player;
 
     this.element.innerHTML = `
       <div class="player__personal">
         <div class="player__image">
-          <img src="${this.player.img || anonymousImage}" alt="Player Image">
+          <img src="${img || anonymousImage}" alt="Player Image">
         </div>
         <div>
-          <h3 class="text-14">${this.player.username}</h3>
-          <a href="mailto:${this.player.mail}" class="player__email text-12">${
-      this.player.mail
-    }</a>
+          <h3 class="text-14">${username}</h3>
+          <a href="mailto:${mail}" class="player__email text-12">${mail}</a>
         </div>
       </div>
       <div class="player__score">
-        <p class="text-14">Score: <span class="score">${
-          this.player.score
-        }</span></p>
+        <p class="text-14">Score: <span class="score">${score}</span></p>
       </div>
     `;
   }

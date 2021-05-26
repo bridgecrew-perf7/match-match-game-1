@@ -1,6 +1,6 @@
-import { ISelectData } from '../../../models/select-model';
-import { BaseComponent } from '../../../utils/base-component';
-import { Select } from '../../UI/select/select';
+import { ISelectData } from '../../models/select-model';
+import { BaseComponent } from '../../utils/base-component';
+import { Select } from '../UI/select/select';
 
 export class SettingsSelect extends BaseComponent {
   private selectData: ISelectData;
