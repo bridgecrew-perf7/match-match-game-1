@@ -1,7 +1,8 @@
 export interface IPlayer {
-  id: number,
-  img: string,
-  username: string,
-  mail: string,
-  score: number
+  id: number;
+  img: string;
+  name: string;
+  surname: string;
+  email: string;
+  score: number;
 }

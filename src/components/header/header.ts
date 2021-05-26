@@ -5,14 +5,19 @@ import { HeaderNav } from './header-nav/header-nav';
 import { HeaderProfile } from './heder-profile/header-profile';
 
 export class Header extends BaseComponent {
-  onMyButtonClick: () => void = () => {};
+  showRegisterPopup: () => void = () => {};
   updateButtons: () => void = () => {};
-  private headerLogo: HeaderLogo | undefined;
-  private headerNav: HeaderNav | undefined;
-  private headerProfile: HeaderProfile | undefined;
+  startGame: () => void = () => {};
+  private headerLogo: HeaderLogo;
+  private headerNav: HeaderNav;
+  private headerProfile: HeaderProfile;
 
   constructor() {
     super('header', ['header']);
+
+    this.headerLogo = new HeaderLogo();
+    this.headerNav = new HeaderNav();
+    this.headerProfile = new HeaderProfile();
 
     this.render();
   }
@@ -23,13 +28,12 @@ export class Header extends BaseComponent {
       'container-fluid',
     ]);
 
-    this.headerLogo = new HeaderLogo();
-    this.headerNav = new HeaderNav();
-    this.headerProfile = new HeaderProfile();
-    this.headerProfile.onMyButtonClick = () => {
-      this.onMyButtonClick();
+    this.headerProfile.showRegisterPopup = () => {
+      this.showRegisterPopup();
     };
-    this.updateButtons = () => this.headerProfile?.render();
+
+    this.headerProfile.startGame = () => this.startGame();
+    this.updateButtons = () => this.headerProfile.render();
 
     container.element.appendChild(this.headerLogo.element);
     container.element.appendChild(this.headerNav.element);

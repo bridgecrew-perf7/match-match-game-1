@@ -4,6 +4,8 @@ import { Player } from '../../components/best-players/player/player';
 import { IPlayer } from '../../models/player-model';
 
 import './best-players.scss';
+import { database } from '../../_database/index';
+import { delay } from '../../components/shared/delay';
 
 export class BestPlayers extends BaseComponent {
   private bestPlatersContainer: BestPlayersContainer;
@@ -15,10 +17,9 @@ export class BestPlayers extends BaseComponent {
   }
 
   private async fetchData(): Promise<void> {
-    const data = await fetch('bestPlaters.json');
-    const res = await data.json();
+    const data = await database.readAll<IPlayer>();
 
-    const persons = res[0].bestPlayers.map((player: IPlayer) => new Player(player));
+    const persons = data.map((player: IPlayer) => new Player(player));
     this.bestPlatersContainer.addPerson(persons);
   }
 
@@ -27,7 +28,10 @@ export class BestPlayers extends BaseComponent {
     container.classList.add('best-players__container');
 
     const app = this.element.appendChild(container);
-    app.insertAdjacentHTML('afterbegin', '<h2 class="text-20">Best players</h2>');
+    app.insertAdjacentHTML(
+      'afterbegin',
+      '<h2 class="text-20">Best players</h2>',
+    );
 
     this.fetchData();
     app.appendChild(this.bestPlatersContainer.element);

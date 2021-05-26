@@ -6,12 +6,13 @@ export class Player extends BaseComponent {
   constructor(readonly player: IPlayer) {
     super('div', ['best-players__item', 'player']);
     this.player = player;
+
     this.render();
   }
 
   render(): void {
     const anonymousImage = '/assets/upload-image/user.png';
-    const { img, username, mail, score } = this.player;
+    const { name, surname, email, score, img } = this.player;
 
     this.element.innerHTML = `
       <div class="player__personal">
@@ -19,8 +20,8 @@ export class Player extends BaseComponent {
           <img src="${img || anonymousImage}" alt="Player Image">
         </div>
         <div>
-          <h3 class="text-14">${username}</h3>
-          <a href="mailto:${mail}" class="player__email text-12">${mail}</a>
+          <h3 class="text-14">${name} ${surname}</h3>
+          <a href="mailto:${email}" class="player__email text-12">${email}</a>
         </div>
       </div>
       <div class="player__score">

@@ -4,7 +4,7 @@ import { Button } from '../../UI/button/button';
 import { IUserData } from '../../../models/user-data-model';
 
 export class HeaderProfile extends BaseComponent {
-  onMyButtonClick: () => void = () => {};
+  showRegisterPopup: () => void = () => {};
   startGame: () => void = () => {};
   private user: IUserData | null | undefined;
   private buttonStart: BaseComponent;
@@ -16,11 +16,10 @@ export class HeaderProfile extends BaseComponent {
     super('div', ['header__profile', 'profile']);
 
     this.buttonStart = new BaseComponent(
-      'a',
+      'button',
       ['btn', 'profile__btn'],
       'start game',
     );
-    this.buttonStart.element.setAttribute('href', '#/game');
     this.buttonStart.element.addEventListener('click', () => {
       this.startGame();
     });
@@ -30,7 +29,7 @@ export class HeaderProfile extends BaseComponent {
       ['profile__btn'],
       'register new player',
     );
-    this.buttonRegister.handleButton = () => this.onMyButtonClick();
+    this.buttonRegister.handleButton = () => this.showRegisterPopup();
 
     this.buttonLogOut = new Button('button', ['profile__btn'], 'Log out');
     this.buttonLogOut.handleButton = () => {

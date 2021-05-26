@@ -2,7 +2,7 @@ import { BaseComponent } from '../../../utils/base-component';
 import './button.scss';
 
 export class Button extends BaseComponent {
-  handleButton: (event: any) => void = () => {};
+  handleButton: (event: Event) => void = () => {};
 
   constructor(
     readonly type: string,

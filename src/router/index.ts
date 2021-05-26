@@ -1,21 +1,13 @@
 import { IRoute } from '../models/router-model';
 import { BestPlayers } from '../pages/best-players/best-players';
-import { Game } from '../pages/game/game';
 import { Settings } from '../pages/settings/settings';
 import { About } from '../pages/about/about';
 
 export class Router {
   private readonly routes: Array<IRoute>;
-
   private defaultRoute: IRoute;
-
-  // Pages for router
   private readonly BestPlayers = new BestPlayers();
-
-  private Game: Game | undefined;
-
   private readonly GameSetting = new Settings();
-
   private readonly About = new About();
 
   constructor(private rootElement: HTMLElement) {
@@ -32,13 +24,6 @@ export class Router {
         name: '/best-scores',
         component: () => {
           this.rootElement.appendChild(this.BestPlayers.element);
-        },
-      },
-      {
-        name: '/game',
-        component: async () => {
-          this.Game = await new Game();
-          this.rootElement.appendChild(this.Game.element);
         },
       },
       {
