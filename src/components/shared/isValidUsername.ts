@@ -1,8 +1,8 @@
-export function isUsernameValid(value: string): string | boolean {
+export function isUsernameValid(value: string, type: string): string | boolean {
   const errors = [
-    'The name cannot be empty',
-    'The name cannot contains number',
-    'The name cannot contain service characters',
+    `The ${type} cannot be empty`,
+    `The ${type} cannot contains number`,
+    `The ${type} cannot contain service characters`,
   ];
 
   if (value === '') {

@@ -2,10 +2,9 @@ import { BestPlayersContainer } from '../../components/best-players/best-players
 import { BaseComponent } from '../../utils/base-component';
 import { Player } from '../../components/best-players/player/player';
 import { IPlayer } from '../../models/player-model';
+import { database } from '../../_database/index';
 
 import './best-players.scss';
-import { database } from '../../_database/index';
-import { delay } from '../../components/shared/delay';
 
 export class BestPlayers extends BaseComponent {
   private bestPlatersContainer: BestPlayersContainer;

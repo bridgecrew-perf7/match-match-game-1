@@ -14,28 +14,29 @@ export class Settings extends BaseComponent {
   }
 
   async fetchData(): Promise<void> {
-    try {
-      const res = await fetch('./settings.json');
-      const data = await res.json();
-      this.state = data[0].selects;
+    const res = await fetch('./settings.json');
+    const data = await res.json();
+    this.state = data[0].selects;
 
-      this.state = this.state.map((item) => {
-        const id = JSON.parse(localStorage.getItem(item.id) || '');
+    this.state = this.state.map((item) => {
+      const id = localStorage.getItem(item.id);
+
+      if (id) {
+        const parseId = JSON.parse(id);
+
         item.options.forEach((el) => {
-          if (el.value === id) {
+          if (el.value === parseId) {
             el.selected = 'selected';
           }
         });
+      }
 
-        return {
-          id: item.id,
-          title: item.title,
-          options: item.options,
-        };
-      });
-    } catch (err) {
-      throw new Error('Failed fetching from settings...');
-    }
+      return {
+        id: item.id,
+        title: item.title,
+        options: item.options,
+      };
+    });
   }
 
   async render(): Promise<void> {

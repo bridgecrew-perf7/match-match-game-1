@@ -22,7 +22,7 @@ export class RegisterInputs extends BaseComponent {
     type,
   ) => {
     const { value } = event.target as HTMLInputElement;
-    const res = isUsernameValid(value);
+    const res = isUsernameValid(value, type);
 
     if (res === true) {
       this.state[type] = value;
