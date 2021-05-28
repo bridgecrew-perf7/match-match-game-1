@@ -4,8 +4,7 @@ import { SettingsSelect } from '../settings-select/settings-select';
 
 export class SettingsContainer extends BaseComponent {
   private readonly settingsSelect: SettingsSelect[];
-
-  state: [] = [];
+  private state: [] = [];
 
   constructor(state: Array<ISelectData>) {
     super('div', ['settings__config']);

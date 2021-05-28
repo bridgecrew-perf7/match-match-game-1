@@ -8,22 +8,17 @@ export class About extends BaseComponent {
 
   constructor() {
     super('div', ['hot-to-play', 'container']);
-
     this.render();
   }
 
   async renderAboutCards(): Promise<void> {
-    try {
-      const res = await fetch('about.json');
-      const data = await res.json();
+    const res = await fetch('about.json');
+    const data = await res.json();
 
-      this.cards = data[0].cards;
+    this.cards = data[0].cards;
 
-      const content = new AboutContainer(this.cards);
-      this.element.appendChild(content.element);
-    } catch (err) {
-      throw new Error('About cards not fetched...');
-    }
+    const content = new AboutContainer(this.cards);
+    this.element.appendChild(content.element);
   }
 
   render(): void {

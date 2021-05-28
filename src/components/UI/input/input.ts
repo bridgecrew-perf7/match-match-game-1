@@ -3,15 +3,13 @@ import './input.scss';
 
 export class InputGroup extends BaseComponent {
   handleInput: (event: Event) => void = () => {};
-
   private error: BaseComponent;
-
   private correctSpan: BaseComponent;
-
   private errorMessage: string;
 
   constructor(readonly title: string) {
     super('div', ['form__input-group']);
+
     this.title = title;
     this.errorMessage = '';
 

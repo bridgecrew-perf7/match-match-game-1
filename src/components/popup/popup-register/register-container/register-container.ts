@@ -64,5 +64,6 @@ export class RegisterContainer extends BaseComponent {
 
     this.updateHeader();
     this.hidePopupCancel();
+    window.location.hash = '#/';
   }
 }

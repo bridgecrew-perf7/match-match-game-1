@@ -3,6 +3,7 @@ import { BaseComponent } from '../../../../utils/base-component';
 import './register-upload.scss';
 
 export class RegisterUpload extends BaseComponent {
+  getImg: (image: string) => void = () => {};
   private image: string;
   private createImage: HTMLImageElement;
 
@@ -26,8 +27,6 @@ export class RegisterUpload extends BaseComponent {
 
     this.element.append(input.element, label.element, preview.element);
   }
-
-  getImg: (image: string) => void = () => {};
 
   private uploadFile(event: Event) {
     const element = event.target as HTMLInputElement;

@@ -1,7 +1,6 @@
 import { BaseComponent } from '../../../utils/base-component';
 import './card.scss';
-
-const FLIP_CLASS = 'flipped';
+import { config } from '../../../_config/index';
 
 export class Card extends BaseComponent {
   private card: BaseComponent;
@@ -39,7 +38,7 @@ export class Card extends BaseComponent {
 
   private flip(isFront = false): Promise<void> {
     return new Promise((resolve) => {
-      this.element.classList.toggle(FLIP_CLASS, isFront);
+      this.element.classList.toggle(config.FLIP_CLASS, isFront);
       this.element.addEventListener('transitionend', () => resolve(), {
         once: true,
       });

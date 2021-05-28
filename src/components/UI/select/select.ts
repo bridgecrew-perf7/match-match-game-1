@@ -3,18 +3,17 @@ import { BaseComponent } from '../../../utils/base-component';
 import './select.scss';
 
 export class Select extends BaseComponent {
-  private selectData: ISelectData;
   changeSelect: (event: Event) => void = () => {};
+  private selectData: ISelectData;
 
   constructor(selectData: ISelectData) {
     super('select', ['select']);
     this.selectData = selectData;
 
-    this.render();
-
     this.element.addEventListener('change', (event: Event) =>
       this.changeSelect(event),
     );
+    this.render();
   }
 
   render(): void {
@@ -38,7 +37,6 @@ export class Select extends BaseComponent {
       if (index === 0) {
         option.setAttribute('disabled', '');
       }
-
       this.element.appendChild(option);
     });
   }

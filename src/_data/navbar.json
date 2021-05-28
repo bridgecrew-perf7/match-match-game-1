@@ -1,0 +1,20 @@
+[
+  {
+    "url": "",
+    "img": "question",
+    "title": "About Game",
+    "active": true
+  },
+  {
+    "url": "best-scores",
+    "img": "stars",
+    "title": "Best Scores",
+    "active": false
+  },
+  {
+    "url": "game-settings",
+    "img": "settings",
+    "title": "Game Settings",
+    "active": false
+  }
+]

@@ -1,10 +1,6 @@
+import { ITimer } from '../../../models/timer-model';
 import { BaseComponent } from '../../../utils/base-component';
 import './game-timer.scss';
-
-interface ITimer {
-  min: number;
-  sec: number;
-}
 
 export class GameTimer extends BaseComponent {
   private timer: ITimer;

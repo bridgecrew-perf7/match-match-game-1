@@ -25,7 +25,6 @@ export class SettingsSelect extends BaseComponent {
     const el = event.target as HTMLOptionElement;
 
     this.id = String(el.id);
-
     localStorage.setItem(this.id, JSON.stringify(el.value));
   }
 

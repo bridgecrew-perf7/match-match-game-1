@@ -1,47 +1,32 @@
+import { INavItem } from '../../../models/nav-item-model';
 import { BaseComponent } from '../../../utils/base-component';
-
 import './header-nav.scss';
 
 export class HeaderNav extends BaseComponent {
-  private Items = [
-    {
-      url: '',
-      img: 'question',
-      title: 'About Game',
-      active: true,
-    },
-    {
-      url: 'best-scores',
-      img: 'stars',
-      title: 'Best Score',
-      active: false,
-    },
-    {
-      url: 'game-settings',
-      img: 'settings',
-      title: 'Game Settings',
-      active: false,
-    },
-  ];
-
-  private ul: BaseComponent;
-
+  private data: Array<INavItem> = [];
+  private ul: BaseComponent = new BaseComponent('ul', ['nav__list']);
   private items: BaseComponent[] = [];
 
   constructor() {
     super('nav', ['header__nav', 'nav']);
+    this.getNavbarData();
 
     window.addEventListener('hashchange', () => this.updateActive());
+  }
 
-    this.ul = new BaseComponent('ul', ['nav__list']);
-    this.render();
+  async getNavbarData(): Promise<void> {
+    const data = await fetch('./navbar.json');
+    const res = await data.json();
+
+    this.data = res;
     this.updateActive();
+    this.render();
   }
 
   updateActive(): void {
     const hash = window.location.hash.split('#/').join('');
 
-    this.Items = this.Items.map((item) => {
+    this.data = this.data.map((item) => {
       if (item.url === hash) {
         item.active = true;
       } else {
@@ -55,7 +40,7 @@ export class HeaderNav extends BaseComponent {
   }
 
   render(): void {
-    this.items = this.Items.map((item) => {
+    this.items = this.data.map((item) => {
       const li = new BaseComponent('li', ['nav__item']);
 
       li.element.classList.add(item.active ? 'nav__item--active' : 'a');

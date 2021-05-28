@@ -11,11 +11,12 @@ export class BestPlayers extends BaseComponent {
 
   constructor(readonly players: [] = []) {
     super('div', ['best-players', 'container']);
+    this.getBestPlayers();
     this.bestPlatersContainer = new BestPlayersContainer();
     this.render();
   }
 
-  private async fetchData(): Promise<void> {
+  private async getBestPlayers(): Promise<void> {
     const data = await database.getAllUsers<IPlayer>();
 
     const persons = data.map((player: IPlayer) => new Player(player));
@@ -23,16 +24,8 @@ export class BestPlayers extends BaseComponent {
   }
 
   render(): void {
-    const container = document.createElement('div');
-    container.classList.add('best-players__container');
+    const title = new BaseComponent('h2', ['text-20'], 'Best Players');
 
-    const app = this.element.appendChild(container);
-    app.insertAdjacentHTML(
-      'afterbegin',
-      '<h2 class="text-20">Best players</h2>',
-    );
-
-    this.fetchData();
-    app.appendChild(this.bestPlatersContainer.element);
+    this.element.append(title.element, this.bestPlatersContainer.element);
   }
 }

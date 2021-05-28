@@ -6,8 +6,10 @@ import { IUserData } from '../../../models/user-data-model';
 export class HeaderProfile extends BaseComponent {
   showRegisterPopup: () => void = () => {};
   startGame: () => void = () => {};
+  stopGame: () => void = () => {};
   private user: IUserData | null | undefined;
-  private buttonStart: BaseComponent;
+  private buttonStart: Button;
+  private buttonStop: Button;
   private buttonRegister: Button;
   private buttonLogOut: Button;
   private image = new Image();
@@ -15,14 +17,25 @@ export class HeaderProfile extends BaseComponent {
   constructor() {
     super('div', ['header__profile', 'profile']);
 
-    this.buttonStart = new BaseComponent(
+    this.buttonStart = new Button(
       'button',
       ['btn', 'profile__btn'],
       'start game',
     );
-    this.buttonStart.element.addEventListener('click', () => {
+    this.buttonStart.handleButton = () => {
+      localStorage.setItem('gameStarted', 'started');
       this.startGame();
-    });
+    };
+
+    this.buttonStop = new Button(
+      'button',
+      ['btn', 'profile__btn'],
+      'stop game',
+    );
+    this.buttonStop.handleButton = () => {
+      localStorage.setItem('gameStarted', '');
+      this.stopGame();
+    };
 
     this.buttonRegister = new Button(
       'button',
@@ -34,7 +47,7 @@ export class HeaderProfile extends BaseComponent {
     this.buttonLogOut = new Button('button', ['profile__btn'], 'Log out');
     this.buttonLogOut.handleButton = () => {
       localStorage.removeItem('user');
-      this.updateButtons();
+      this.render();
     };
 
     this.image.classList.add('profile__img');
@@ -42,16 +55,11 @@ export class HeaderProfile extends BaseComponent {
     this.render();
   }
 
-  updateButtons(): void {
-    this.render();
-  }
-
   render(): void {
-    this.user = null;
-    const userFromLocal = localStorage.getItem('user');
-    if (userFromLocal) this.user = JSON.parse(userFromLocal);
-
     this.element.innerHTML = '';
+    this.user = null;
+    const getUser = localStorage.getItem('user');
+    if (getUser) this.user = JSON.parse(getUser);
 
     this.element.append(
       this.user ? this.buttonStart.element : this.buttonRegister.element,

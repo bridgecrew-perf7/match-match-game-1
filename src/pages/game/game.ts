@@ -6,18 +6,19 @@ import { GameTimer } from '../../components/game/game-timer/game-timer';
 import { ImageCategoryModel } from '../../models/image-category-model';
 import { PopupCongratulations } from '../../components/popup/popup-congratulations/congratulations';
 import { database } from '../../_database/index';
+import { getFromLocalStorage } from '../../components/shared/getFromLocalStorage';
+import { config } from '../../_config/index';
 
-const FLIP_DELAY = 1500;
 export class Game extends BaseComponent {
   private readonly cardsFields: CardField;
   private readonly gameTimer: GameTimer;
   private popupCongratulations: PopupCongratulations | undefined;
   private activeCard?: Card;
   private isAnimation = false;
-  private correctAnswers: number;
-  private notCorrectAnswers: number;
-  private CARDS = Number(JSON.parse(localStorage.getItem('difficulty') || '4'));
-  private TYPE = JSON.parse(localStorage.getItem('game-cards') || 'animals');
+  private correctAnswers = 0;
+  private notCorrectAnswers = 0;
+  private CARDS = Number(getFromLocalStorage('difficulty', '4'));
+  private TYPE = getFromLocalStorage('game-cards', 'animals');
   private cardsLength = (this.CARDS * this.CARDS) / 2;
 
   constructor() {
@@ -28,9 +29,6 @@ export class Game extends BaseComponent {
     this.element.appendChild(this.cardsFields.element);
 
     this.getImages();
-
-    this.correctAnswers = 0;
-    this.notCorrectAnswers = 0;
   }
 
   newGame(images: string[]): void {
@@ -46,8 +44,7 @@ export class Game extends BaseComponent {
     });
 
     this.cardsFields.addCards(cards);
-
-    setTimeout(() => this.gameTimer.startTrack(), 3000);
+    setTimeout(() => this.gameTimer.startTrack(), config.START_AFTER);
   }
 
   async getImages(): Promise<void> {
@@ -73,20 +70,19 @@ export class Game extends BaseComponent {
     const user = localStorage.getItem('user');
 
     if (user) {
-      const parse = JSON.parse(user);
-      parse.score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
+      const res = JSON.parse(user);
+      res.score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
 
-      database.add(parse);
+      database.add(res);
     }
 
     this.popupCongratulations = new PopupCongratulations(time);
     this.element.append(this.popupCongratulations.element);
   }
 
-  private async handleCard(card: Card) {
+  private async handleCard(card: Card): Promise<void> {
     if (this.isAnimation) return;
     this.isAnimation = true;
-
     await card.flipToFront();
 
     if (!this.activeCard) {
@@ -100,7 +96,7 @@ export class Game extends BaseComponent {
       this.activeCard.error(true);
       card.error(true);
 
-      await delay(FLIP_DELAY);
+      await delay(config.FLIP_DELAY);
 
       await Promise.all([
         this.activeCard.error(),
