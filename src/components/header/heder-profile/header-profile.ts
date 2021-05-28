@@ -6,13 +6,13 @@ import { IUserData } from '../../../models/user-data-model';
 export class HeaderProfile extends BaseComponent {
   showRegisterPopup: () => void = () => {};
   startGame: () => void = () => {};
-  stopGame: () => void = () => {};
   private user: IUserData | null | undefined;
   private buttonStart: Button;
   private buttonStop: Button;
   private buttonRegister: Button;
   private buttonLogOut: Button;
   private image = new Image();
+  private isGameStated = false;
 
   constructor() {
     super('div', ['header__profile', 'profile']);
@@ -23,8 +23,9 @@ export class HeaderProfile extends BaseComponent {
       'start game',
     );
     this.buttonStart.handleButton = () => {
-      localStorage.setItem('gameStarted', 'started');
+      this.isGameStated = true;
       this.startGame();
+      this.render();
     };
 
     this.buttonStop = new Button(
@@ -33,8 +34,9 @@ export class HeaderProfile extends BaseComponent {
       'stop game',
     );
     this.buttonStop.handleButton = () => {
-      localStorage.setItem('gameStarted', '');
       this.stopGame();
+      window.location.hash = '#/';
+      window.location.hash = '#/best-scores';
     };
 
     this.buttonRegister = new Button(
@@ -51,7 +53,11 @@ export class HeaderProfile extends BaseComponent {
     };
 
     this.image.classList.add('profile__img');
+    this.render();
+  }
 
+  stopGame(): void {
+    this.isGameStated = false;
     this.render();
   }
 
@@ -61,10 +67,19 @@ export class HeaderProfile extends BaseComponent {
     const getUser = localStorage.getItem('user');
     if (getUser) this.user = JSON.parse(getUser);
 
+    const registerOrLogOut = this.user
+      ? this.buttonLogOut.element
+      : this.buttonRegister.element;
+
     this.element.append(
-      this.user ? this.buttonStart.element : this.buttonRegister.element,
-      this.user ? this.buttonLogOut.element : this.buttonRegister.element,
+      this.isGameStated ? this.buttonStop.element : this.buttonStart.element,
+      !this.isGameStated ? registerOrLogOut : '',
     );
+
+    // this.element.append(
+    //   this.user ? startOrStop : this.buttonRegister.element,
+    //   this.user ? this.buttonLogOut.element : this.buttonRegister.element,
+    // );
 
     const anonymousImage = '/assets/upload-image/user.png';
     this.image.src = this.user?.img || anonymousImage;

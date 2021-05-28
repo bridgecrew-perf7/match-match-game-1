@@ -10,8 +10,6 @@ export class HeaderNav extends BaseComponent {
   constructor() {
     super('nav', ['header__nav', 'nav']);
     this.getNavbarData();
-
-    window.addEventListener('hashchange', () => this.updateActive());
   }
 
   async getNavbarData(): Promise<void> {

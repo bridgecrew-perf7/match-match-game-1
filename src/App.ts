@@ -18,6 +18,7 @@ export class App {
 
   private showRegisterPopup(): void {
     localStorage.clear();
+
     this.registerPopup = new PopupRegister();
     this.registerPopup.updateHeader = () => {
       this.header.updateButtons();

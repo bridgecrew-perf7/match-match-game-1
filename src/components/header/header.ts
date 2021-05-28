@@ -19,6 +19,11 @@ export class Header extends BaseComponent {
     this.headerNav = new HeaderNav();
     this.headerProfile = new HeaderProfile();
 
+    window.addEventListener('hashchange', () => {
+      this.headerProfile.stopGame();
+      this.headerNav.updateActive();
+    });
+
     this.render();
   }
 
