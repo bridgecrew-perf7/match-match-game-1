@@ -1,7 +1,8 @@
 import { BaseComponent } from '../../../utils/base-component';
-import './header-profile.scss';
 import { Button } from '../../UI/button/button';
 import { IUserData } from '../../../models/user-data-model';
+import { config } from '../../../_config/index';
+import './header-profile.scss';
 
 export class HeaderProfile extends BaseComponent {
   showRegisterPopup: () => void = () => {};
@@ -71,18 +72,15 @@ export class HeaderProfile extends BaseComponent {
       ? this.buttonLogOut.element
       : this.buttonRegister.element;
 
-    this.element.append(
-      this.isGameStated ? this.buttonStop.element : this.buttonStart.element,
-      !this.isGameStated ? registerOrLogOut : '',
-    );
+    const startOrStop = this.isGameStated
+      ? this.buttonStop.element
+      : this.buttonStart.element;
 
-    // this.element.append(
-    //   this.user ? startOrStop : this.buttonRegister.element,
-    //   this.user ? this.buttonLogOut.element : this.buttonRegister.element,
-    // );
+    this.user
+      ? this.element.append(startOrStop, registerOrLogOut)
+      : this.element.append(registerOrLogOut);
 
-    const anonymousImage = '/assets/upload-image/user.png';
-    this.image.src = this.user?.img || anonymousImage;
+    this.image.src = this.user?.img || config.ANONYMOUS_IMAGE;
     if (this.user) this.element.appendChild(this.image);
   }
 }
