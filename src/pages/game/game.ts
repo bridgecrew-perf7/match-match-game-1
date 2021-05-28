@@ -5,6 +5,7 @@ import { delay } from '../../components/shared/delay';
 import { GameTimer } from '../../components/game/game-timer/game-timer';
 import { ImageCategoryModel } from '../../models/image-category-model';
 import { PopupCongratulations } from '../../components/popup/popup-congratulations/congratulations';
+import { database } from '../../_database/index';
 
 const FLIP_DELAY = 1500;
 export class Game extends BaseComponent {
@@ -17,6 +18,7 @@ export class Game extends BaseComponent {
   private notCorrectAnswers: number;
   private CARDS = Number(JSON.parse(localStorage.getItem('difficulty') || '4'));
   private TYPE = JSON.parse(localStorage.getItem('game-cards') || 'animals');
+  private cardsLength = (this.CARDS * this.CARDS) / 2;
 
   constructor() {
     super('div', ['game', 'container']);
@@ -55,10 +57,30 @@ export class Game extends BaseComponent {
     const cat = categories.filter((item) => item.category === this.TYPE)[0];
 
     const images = cat.images
-      .slice(0, (this.CARDS * this.CARDS) / 2)
+      .slice(0, this.cardsLength)
       .map((name) => `${cat.category}/${name}`);
 
     this.newGame(images);
+  }
+
+  private congratulations() {
+    const time = this.gameTimer.stopTimer();
+
+    // score
+    const compares = this.correctAnswers + this.notCorrectAnswers;
+    const timeInSeconds = (time.min * 60 + time.sec) * 10;
+
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      const parse = JSON.parse(user);
+      parse.score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
+
+      database.add(parse);
+    }
+
+    this.popupCongratulations = new PopupCongratulations(time);
+    this.element.append(this.popupCongratulations.element);
   }
 
   private async handleCard(card: Card) {
@@ -89,20 +111,8 @@ export class Game extends BaseComponent {
     } else {
       this.correctAnswers++;
 
-      if (this.correctAnswers === this.CARDS * 2) {
-        const time = this.gameTimer.stopTimer();
-        this.popupCongratulations = new PopupCongratulations(time);
-
-        // score
-        const compares = this.correctAnswers + this.notCorrectAnswers;
-        const timeInSeconds = (time.min * 60 + time.sec) * 10;
-
-        localStorage.setItem(
-          'score',
-          `${(compares - this.notCorrectAnswers) * 100 - timeInSeconds}`,
-        );
-
-        this.element.append(this.popupCongratulations.element);
+      if (this.correctAnswers === this.cardsLength) {
+        this.congratulations();
       }
 
       card.success();

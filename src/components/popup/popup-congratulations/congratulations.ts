@@ -31,6 +31,7 @@ export class PopupCongratulations extends BaseComponent {
   }
 
   handleButton(): void {
+    window.location.hash = '#/';
     window.location.hash = this.url;
   }
 }

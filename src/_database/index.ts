@@ -1,23 +1,23 @@
-class DataBase {
-  public database: IDBDatabase = null;
+import { IPlayer } from '../models/player-model';
 
-  constructor() {}
+class DataBase {
+  public database: IDBDatabase | undefined;
 
   init(dbName: string, version?: number): Promise<void> {
     return new Promise((resolve) => {
       const openRequest = window.indexedDB.open(dbName, version);
 
       openRequest.onupgradeneeded = () => {
-        const store = this.database.createObjectStore('users', {
+        this.database = openRequest.result;
+        const store = this.database?.createObjectStore('users', {
           keyPath: 'id',
           autoIncrement: true,
         });
 
-        store.createIndex('name', 'name');
-        store.createIndex('surname', 'surname');
-        store.createIndex('email', 'email', { unique: true });
-
-        this.database = openRequest.result;
+        if (store) {
+          store.createIndex('score', 'score');
+          store.createIndex('email', 'email', { unique: true });
+        }
       };
 
       openRequest.onsuccess = () => {
@@ -27,47 +27,47 @@ class DataBase {
     });
   }
 
-  add() {
-    const transaction = this.database.transaction('users', 'readwrite');
-    const store = transaction.objectStore('users');
+  add(player: IPlayer): void {
+    const transaction = this.database?.transaction('users', 'readwrite');
+    if (transaction) {
+      const store = transaction.objectStore('users');
+      const res = store.add({});
 
-    // store.add({
-    //   name: 'Azizbek',
-    //   surname: 'Savkimov',
-    //   email: 'azizbek@mail.ru',
-    //   score: 500,
-    //   img: '',
-    // });
-    // store.add({
-    //   name: 'Zafar',
-    //   surname: 'Khodjaev',
-    //   email: 'thezaff@mail.ru',
-    //   score: 400,
-    //   img: '',
-    // });
-    // store.add({
-    //   name: 'Anna',
-    //   surname: 'Butkova',
-    //   email: 'anna@mail.ru',
-    //   score: 300,
-    //   img: '',
-    // });
-    // store.add({
-    //   name: 'Kazakh',
-    //   surname: 'Kazakhov',
-    //   email: 'kazax@mail.ru',
-    //   score: 200,
-    //   img: '',
-    // });
+      res.onsuccess = () => {
+        const result = store.index('email');
+        const getCurrentEmail = result.get(player.email);
+
+        getCurrentEmail.onsuccess = () => {
+          if (getCurrentEmail.result) {
+            store.put({ ...getCurrentEmail.result, ...player });
+          } else {
+            store.put(player);
+          }
+        };
+      };
+    }
   }
 
-  readAll<RecordType>(): Promise<Array<RecordType>> {
+  getAllUsers<RecordType>(): Promise<Array<RecordType>> {
     return new Promise((resolve) => {
-      const transaction = this.database.transaction('users', 'readonly');
-      const store = transaction.objectStore('users');
-      const result = store.getAll();
+      const transaction = this.database?.transaction('users', 'readonly');
+      if (transaction) {
+        const store = transaction.objectStore('users');
+        const result = store.index('score').openCursor(null, 'prev');
+        const res: Array<RecordType> = [];
 
-      transaction.oncomplete = () => resolve(result.result);
+        result.onsuccess = () => {
+          const cursor = result.result;
+          if (cursor) {
+            res.push(cursor.value);
+            cursor.continue();
+          }
+        };
+
+        transaction.oncomplete = () => {
+          resolve(res.slice(0, 10));
+        };
+      }
     });
   }
 }

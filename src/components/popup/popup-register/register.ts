@@ -1,4 +1,3 @@
-import { IUserData } from '../../../models/user-data-model';
 import { BaseComponent } from '../../../utils/base-component';
 import { RegisterContainer } from './register-container/register-container';
 
@@ -7,17 +6,9 @@ import './register.scss';
 export class PopupRegister extends BaseComponent {
   hidePopupCancel: () => void = () => {};
   updateHeader: () => void = () => {};
-  state: IUserData;
 
   constructor() {
     super('div', ['popup-register']);
-
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      img: '',
-    };
 
     this.render();
   }

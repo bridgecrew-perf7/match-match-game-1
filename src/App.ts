@@ -16,7 +16,7 @@ export class App {
     this.router = new Router(this.main.element);
   }
 
-  private registerPopupInit(): void {
+  private registerPopupShow(): void {
     this.registerPopup = new PopupRegister();
     this.registerPopup.updateHeader = () => {
       this.header.updateButtons();
@@ -31,7 +31,7 @@ export class App {
   }
 
   render(): void {
-    this.header.showRegisterPopup = () => this.registerPopupInit();
+    this.header.showRegisterPopup = () => this.registerPopupShow();
     this.header.startGame = () => {
       this.game = new Game();
       this.main.element.innerHTML = '';

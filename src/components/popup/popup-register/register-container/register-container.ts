@@ -18,8 +18,8 @@ export class RegisterContainer extends BaseComponent {
     super('div', ['popup__form']);
 
     this.state = {
-      firstName: '',
-      lastName: '',
+      name: '',
+      surname: '',
       email: '',
       img: '',
     };
@@ -49,9 +49,9 @@ export class RegisterContainer extends BaseComponent {
   }
 
   checkInputs(): void {
-    const { firstName, lastName, email } = this.state;
+    const { name, surname, email } = this.state;
 
-    if (firstName !== '' && lastName !== '' && email !== '') {
+    if (name !== '' && surname !== '' && email !== '') {
       this.registerButtons.toggleDisabled(false);
     } else {
       this.registerButtons.toggleDisabled(true);

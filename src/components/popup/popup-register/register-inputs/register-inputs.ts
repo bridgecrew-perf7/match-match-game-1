@@ -51,12 +51,10 @@ export class RegisterInputs extends BaseComponent {
 
   render(): void {
     const firstName = new InputGroup('First Name');
-    firstName.handleInput = (event) =>
-      this.userNameValidation(event, 'firstName');
+    firstName.handleInput = (event) => this.userNameValidation(event, 'name');
 
     const lastName = new InputGroup('Last Name');
-    lastName.handleInput = (event) =>
-      this.userNameValidation(event, 'lastName');
+    lastName.handleInput = (event) => this.userNameValidation(event, 'surname');
 
     const email = new InputGroup('Email');
     email.handleInput = (event) => this.emailValidation(event);

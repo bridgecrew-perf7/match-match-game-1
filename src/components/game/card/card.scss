@@ -3,12 +3,12 @@
   height: 168px;
   margin-top: 14px;
   position: relative;
+  pointer-events: none;
+  &.flipped {
+    pointer-events: initial;
+  }
   &.flipped > .card {
     transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    -ms-transform: rotateY(180deg);
-    -o-transform: rotateY(180deg);
   }
 }
 
@@ -19,10 +19,6 @@
   transition: transform 0.5s;
   transform-style: preserve-3d;
   position: relative;
-  -webkit-transition: transform 0.5s;
-  -moz-transition: transform 0.5s;
-  -ms-transition: transform 0.5s;
-  -o-transition: transform 0.5s;
 }
 
 .card-container::after {

@@ -6,9 +6,6 @@ import { About } from '../pages/about/about';
 export class Router {
   private readonly routes: Array<IRoute>;
   private defaultRoute: IRoute;
-  private readonly BestPlayers = new BestPlayers();
-  private readonly GameSetting = new Settings();
-  private readonly About = new About();
 
   constructor(private rootElement: HTMLElement) {
     this.rootElement = rootElement;
@@ -17,19 +14,22 @@ export class Router {
       {
         name: '/',
         component: () => {
-          this.rootElement.appendChild(this.About.element);
+          const aboutPage = new About();
+          this.rootElement.appendChild(aboutPage.element);
         },
       },
       {
         name: '/best-scores',
         component: () => {
-          this.rootElement.appendChild(this.BestPlayers.element);
+          const bestPlayersPage = new BestPlayers();
+          this.rootElement.appendChild(bestPlayersPage.element);
         },
       },
       {
         name: '/game-settings',
         component: () => {
-          this.rootElement.appendChild(this.GameSetting.element);
+          const gameSettingsPage = new Settings();
+          this.rootElement.appendChild(gameSettingsPage.element);
         },
       },
     ];

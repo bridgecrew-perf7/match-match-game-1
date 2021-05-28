@@ -17,7 +17,7 @@ export class BestPlayers extends BaseComponent {
   }
 
   private async fetchData(): Promise<void> {
-    const data = await database.readAll<IPlayer>();
+    const data = await database.getAllUsers<IPlayer>();
 
     const persons = data.map((player: IPlayer) => new Player(player));
     this.bestPlatersContainer.addPerson(persons);
