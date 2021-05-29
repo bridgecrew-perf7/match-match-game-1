@@ -10,7 +10,7 @@ import { getFromLocalStorage } from '../../components/shared/getFromLocalStorage
 import { config } from '../../_config/index';
 
 export class Game extends BaseComponent {
-  private readonly cardsFields: CardField;
+  private readonly cardsFields: CardField; // исправить
   private readonly gameTimer: GameTimer;
   private popupCongratulations: PopupCongratulations | undefined;
   private activeCard?: Card;

@@ -6,26 +6,26 @@ import { database } from '../../_database/index';
 
 import './best-players.scss';
 
-export class BestPlayers extends BaseComponent {
-  private bestPlatersContainer: BestPlayersContainer;
+const getBestPlayers = async (): Promise<Array<Player>> => {
+  const data = await database.getAllUsers<IPlayer>();
 
-  constructor(readonly players: [] = []) {
-    super('div', ['best-players', 'container']);
-    this.getBestPlayers();
-    this.bestPlatersContainer = new BestPlayersContainer();
-    this.render();
-  }
+  const persons = data.map((player: IPlayer) => new Player(player));
+  return persons;
+};
 
-  private async getBestPlayers(): Promise<void> {
-    const data = await database.getAllUsers<IPlayer>();
+export async function BestPlayers(): Promise<HTMLElement> {
+  const { element } = new BaseComponent('div', ['best-players', 'container']);
+  const bestPlatersContainer = new BestPlayersContainer();
 
-    const persons = data.map((player: IPlayer) => new Player(player));
-    this.bestPlatersContainer.addPerson(persons);
-  }
+  const title = new BaseComponent('h2', ['text-20'], 'Best Players');
+  const container = new BaseComponent('div', ['best-players__container']);
 
-  render(): void {
-    const title = new BaseComponent('h2', ['text-20'], 'Best Players');
+  element.append(
+    title.element,
+    container.element,
+    bestPlatersContainer.element,
+  );
 
-    this.element.append(title.element, this.bestPlatersContainer.element);
-  }
+  bestPlatersContainer.addPerson(await getBestPlayers());
+  return element;
 }

@@ -20,9 +20,9 @@ export class Router {
       },
       {
         name: '/best-scores',
-        component: () => {
-          const bestPlayersPage = new BestPlayers();
-          this.rootElement.appendChild(bestPlayersPage.element);
+        component: async () => {
+          const bestPlayersPage = await BestPlayers();
+          this.rootElement.appendChild(bestPlayersPage);
         },
       },
       {

@@ -35,9 +35,8 @@ export class App {
   render(): void {
     this.header.showRegisterPopup = () => this.showRegisterPopup();
     this.header.startGame = () => {
-      this.game = new Game();
       this.main.element.innerHTML = '';
-      this.main.element.append(this.game.element);
+      this.main.element.append(new Game().element);
     };
 
     this.rootElement.appendChild(this.header.element);

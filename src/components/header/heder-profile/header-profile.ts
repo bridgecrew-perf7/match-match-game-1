@@ -36,8 +36,8 @@ export class HeaderProfile extends BaseComponent {
     );
     this.buttonStop.handleButton = () => {
       this.stopGame();
+      window.location.hash = '';
       window.location.hash = '#/';
-      window.location.hash = '#/best-scores';
     };
 
     this.buttonRegister = new Button(
@@ -76,9 +76,9 @@ export class HeaderProfile extends BaseComponent {
       ? this.buttonStop.element
       : this.buttonStart.element;
 
-    this.user
-      ? this.element.append(startOrStop, registerOrLogOut)
-      : this.element.append(registerOrLogOut);
+    this.element.append(
+      ...(this.user ? [startOrStop, registerOrLogOut] : [registerOrLogOut]),
+    );
 
     this.image.src = this.user?.img || config.ANONYMOUS_IMAGE;
     if (this.user) this.element.appendChild(this.image);
