@@ -4,15 +4,15 @@ import { CardField } from '../../components/game/cards-field/cards-field';
 import { delay } from '../../components/shared/delay';
 import { GameTimer } from '../../components/game/game-timer/game-timer';
 import { ImageCategoryModel } from '../../models/image-category-model';
-import { PopupCongratulations } from '../../components/popup/popup-congratulations/congratulations';
+import { Popup } from '../../components/popup/popup';
 import { database } from '../../_database/index';
 import { getFromLocalStorage } from '../../components/shared/getFromLocalStorage';
 import { config } from '../../_config/index';
 
 export class Game extends BaseComponent {
-  private readonly cardsFields: CardField; // исправить
+  private readonly cardsField: CardField;
   private readonly gameTimer: GameTimer;
-  private popupCongratulations: PopupCongratulations | undefined;
+  private popupCongratulations: Popup | undefined;
   private activeCard?: Card;
   private isAnimation = false;
   private correctAnswers = 0;
@@ -24,26 +24,24 @@ export class Game extends BaseComponent {
   constructor() {
     super('div', ['game', 'container']);
     this.gameTimer = new GameTimer();
-    this.cardsFields = new CardField();
+    this.cardsField = new CardField();
     this.element.appendChild(this.gameTimer.element);
-    this.element.appendChild(this.cardsFields.element);
+    this.element.appendChild(this.cardsField.element);
 
     this.getImages();
   }
 
   newGame(images: string[]): void {
-    this.cardsFields.clear();
+    this.cardsField.clear();
 
-    const cards = images
-      .concat(images)
-      .map((url) => new Card(url))
-      .sort(() => Math.random() - 0.5);
+    const cards = images.concat(images).map((url) => new Card(url));
+    // .sort(() => Math.random() - 0.5);
 
     cards.forEach((card) => {
       card.element.addEventListener('click', () => this.handleCard(card));
     });
 
-    this.cardsFields.addCards(cards);
+    this.cardsField.addCards(cards);
     setTimeout(() => this.gameTimer.startTrack(), config.START_AFTER);
   }
 
@@ -62,6 +60,9 @@ export class Game extends BaseComponent {
 
   private congratulations() {
     const time = this.gameTimer.stopTimer();
+    const formatTime = `Congratulations! You successfully found all matches on ${
+      time.min
+    }.${time.sec < 10 ? `0${time.sec}` : time.sec} minutes`;
 
     // score
     const compares = this.correctAnswers + this.notCorrectAnswers;
@@ -72,11 +73,14 @@ export class Game extends BaseComponent {
     if (user) {
       const res = JSON.parse(user);
       res.score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
-
-      database.add(res);
+      database.updateScore(res);
     }
 
-    this.popupCongratulations = new PopupCongratulations(time);
+    this.popupCongratulations = new Popup(formatTime);
+    this.popupCongratulations.handleButton = () => {
+      window.location.hash = '#/';
+      window.location.hash = '#/best-scores';
+    };
     this.element.append(this.popupCongratulations.element);
   }
 

@@ -3,13 +3,14 @@ import { Router } from './router';
 import { BaseComponent } from './utils/base-component';
 import { PopupRegister } from './components/popup/popup-register/register';
 import { Game } from './pages/game/game';
+import { PopupSignIn } from './components/popup/popup-signin/popup-signin';
 
 export class App {
   private header: Header;
   private readonly router: Router;
   private main = new BaseComponent('main', ['main']);
   private registerPopup: PopupRegister | undefined;
-  private game: Game | undefined;
+  private signInPopup: PopupSignIn | undefined;
 
   constructor(private readonly rootElement: HTMLElement) {
     this.header = new Header();
@@ -32,8 +33,17 @@ export class App {
     };
   }
 
+  private showSignInPopup(): void {
+    localStorage.clear();
+
+    this.signInPopup = new PopupSignIn();
+    this.signInPopup.updateHeader = () => this.header.updateButtons();
+    this.rootElement.append(this.signInPopup.element);
+  }
+
   render(): void {
     this.header.showRegisterPopup = () => this.showRegisterPopup();
+    this.header.showSignInPopup = () => this.showSignInPopup();
     this.header.startGame = () => {
       this.main.element.innerHTML = '';
       this.main.element.append(new Game().element);
