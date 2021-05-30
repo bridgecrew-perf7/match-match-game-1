@@ -1,6 +1,7 @@
 import { ITimer } from '../../../models/timer-model';
 import { BaseComponent } from '../../../utils/base-component';
 import './game-timer.scss';
+import { config } from '../../../_config/index';
 
 export class GameTimer extends BaseComponent {
   private timer: ITimer;
@@ -11,11 +12,18 @@ export class GameTimer extends BaseComponent {
     super('div', ['game-timer']);
     this.timer = {
       min: 0,
-      sec: 0,
+      sec: config.START_AFTER,
     };
 
-    this.span = new BaseComponent('span', ['text-36']);
+    this.span = new BaseComponent('span', ['text-36', 'back-timer']);
+    this.interval = setInterval(() => this.waitTimer(), 1000);
     this.render();
+  }
+
+  private updateViewTimer() {
+    this.span.element.innerText = `${this.timeFormat(
+      this.timer.min,
+    )}:${this.timeFormat(this.timer.sec)}`;
   }
 
   private gameTimer(): void {
@@ -26,10 +34,18 @@ export class GameTimer extends BaseComponent {
       this.timer.sec = 0;
     }
 
-    // Update ui timer
-    this.span.element.innerText = `${this.timeFormat(
-      this.timer.min,
-    )}:${this.timeFormat(this.timer.sec)}`;
+    this.updateViewTimer();
+  }
+
+  private waitTimer(): void {
+    this.timer.sec--;
+
+    if (this.timer.sec === 0) {
+      this.span.element.classList.remove('back-timer');
+      if (this.interval) clearInterval(this.interval);
+    }
+
+    this.updateViewTimer();
   }
 
   startTrack(): void {
@@ -37,9 +53,7 @@ export class GameTimer extends BaseComponent {
   }
 
   stopTimer(): ITimer {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    if (this.interval) clearInterval(this.interval);
 
     return this.timer;
   }
@@ -53,7 +67,7 @@ export class GameTimer extends BaseComponent {
   }
 
   render(): void {
-    this.span.element.innerText = '00:00';
+    this.span.element.innerText = `00:${this.timeFormat(config.START_AFTER)}`;
     this.element.appendChild(this.span.element);
   }
 }

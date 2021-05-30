@@ -23,6 +23,6 @@ export class CardField extends BaseComponent {
     this.cards.forEach((card) => this.element.append(card.element));
     setTimeout(() => {
       this.cards.forEach((card) => card.flipToBack());
-    }, config.START_AFTER);
+    }, config.START_AFTER * 1000);
   }
 }

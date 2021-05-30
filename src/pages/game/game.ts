@@ -44,7 +44,7 @@ export class Game extends BaseComponent {
     });
 
     this.cardsField.addCards(cards);
-    setTimeout(() => this.gameTimer.startTrack(), config.START_AFTER);
+    setTimeout(() => this.gameTimer.startTrack(), config.START_AFTER * 1000);
   }
 
   async getImages(): Promise<void> {
