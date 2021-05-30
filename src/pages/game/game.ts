@@ -34,8 +34,10 @@ export class Game extends BaseComponent {
   newGame(images: string[]): void {
     this.cardsField.clear();
 
-    const cards = images.concat(images).map((url) => new Card(url));
-    // .sort(() => Math.random() - 0.5);
+    const cards = images
+      .concat(images)
+      .map((url) => new Card(url))
+      .sort(() => Math.random() - 0.5);
 
     cards.forEach((card) => {
       card.element.addEventListener('click', () => this.handleCard(card));
