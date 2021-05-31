@@ -6,12 +6,14 @@ import './header-profile.scss';
 
 export class HeaderProfile extends BaseComponent {
   showRegisterPopup: () => void = () => {};
+  showSignInPopup: () => void = () => {};
   startGame: () => void = () => {};
   private user: IUserData | null | undefined;
   private buttonStart: Button;
   private buttonStop: Button;
   private buttonRegister: Button;
   private buttonLogOut: Button;
+  private buttonSignIn: Button;
   private image = new Image();
   private isGameStated = false;
 
@@ -47,6 +49,9 @@ export class HeaderProfile extends BaseComponent {
     );
     this.buttonRegister.handleButton = () => this.showRegisterPopup();
 
+    this.buttonSignIn = new Button('button', ['profile__btn'], 'Sign In');
+    this.buttonSignIn.handleButton = () => this.showSignInPopup();
+
     this.buttonLogOut = new Button('button', ['profile__btn'], 'Log out');
     this.buttonLogOut.handleButton = () => {
       localStorage.removeItem('user');
@@ -69,15 +74,15 @@ export class HeaderProfile extends BaseComponent {
     if (getUser) this.user = JSON.parse(getUser);
 
     const registerOrLogOut = this.user
-      ? this.buttonLogOut.element
-      : this.buttonRegister.element;
+      ? [this.buttonLogOut.element]
+      : [this.buttonRegister.element, this.buttonSignIn.element];
 
     const startOrStop = this.isGameStated
-      ? this.buttonStop.element
-      : this.buttonStart.element;
+      ? [this.buttonStop.element]
+      : [this.buttonStart.element, ...registerOrLogOut];
 
     this.element.append(
-      ...(this.user ? [startOrStop, registerOrLogOut] : [registerOrLogOut]),
+      ...(this.user ? [...startOrStop] : [...registerOrLogOut]),
     );
 
     this.image.src = this.user?.img || config.ANONYMOUS_IMAGE;

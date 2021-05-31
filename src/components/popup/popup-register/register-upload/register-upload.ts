@@ -1,4 +1,5 @@
 import { BaseComponent } from '../../../../utils/base-component';
+import { config } from '../../../../_config/index';
 
 import './register-upload.scss';
 
@@ -9,7 +10,7 @@ export class RegisterUpload extends BaseComponent {
 
   constructor() {
     super('div', ['form__image']);
-    this.image = '/assets/upload-image/user.png';
+    this.image = config.ANONYMOUS_IMAGE;
 
     const input = new BaseComponent('input', ['form__input-upload']);
     input.element.setAttribute('id', 'imageUpload');

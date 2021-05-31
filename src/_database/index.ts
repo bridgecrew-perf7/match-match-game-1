@@ -16,6 +16,8 @@ class DataBase {
 
         if (store) {
           store.createIndex('score', 'score');
+          store.createIndex('name', 'surname');
+          store.createIndex('surname', 'surname');
           store.createIndex('email', 'email', { unique: true });
         }
       };
@@ -27,25 +29,61 @@ class DataBase {
     });
   }
 
-  add(player: IPlayer): void {
-    const transaction = this.database?.transaction('users', 'readwrite');
-    if (transaction) {
-      const store = transaction.objectStore('users');
-      const res = store.add({});
+  updateScore(player: IPlayer): Promise<IPlayer> {
+    return new Promise((resolve) => {
+      const transaction = this.database?.transaction('users', 'readwrite');
+      if (transaction) {
+        const store = transaction.objectStore('users');
+        const index = store.index('email');
+        const getCurrentEmail = index.get(player.email);
 
-      res.onsuccess = () => {
-        const result = store.index('email');
-        const getCurrentEmail = result.get(player.email);
+        getCurrentEmail.onsuccess = () => {
+          store.put({ ...getCurrentEmail.result, ...player });
+          resolve(getCurrentEmail.result);
+        };
+      }
+    });
+  }
+
+  logIn(player: IPlayer): Promise<IPlayer | null> {
+    return new Promise((resolve) => {
+      const transaction = this.database?.transaction('users', 'readwrite');
+      if (transaction) {
+        const store = transaction.objectStore('users');
+        const index = store.index('email');
+        const getCurrentEmail = index.get(player.email);
 
         getCurrentEmail.onsuccess = () => {
           if (getCurrentEmail.result) {
-            store.put({ ...getCurrentEmail.result, ...player });
+            if (getCurrentEmail.result.password === player.password) {
+              resolve(getCurrentEmail.result);
+            } else {
+              resolve(null);
+            }
           } else {
-            store.put(player);
+            resolve(null);
           }
         };
-      };
-    }
+      }
+    });
+  }
+
+  add(player: IPlayer): Promise<boolean> {
+    return new Promise((resolve) => {
+      const transaction = this.database?.transaction('users', 'readwrite');
+      if (transaction) {
+        const store = transaction.objectStore('users');
+        const res = store.add(player);
+
+        res.onsuccess = () => {
+          resolve(true);
+        };
+
+        res.onerror = () => {
+          resolve(false);
+        };
+      }
+    });
   }
 
   getAllUsers<RecordType>(): Promise<Array<RecordType>> {

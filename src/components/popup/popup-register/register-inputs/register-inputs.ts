@@ -5,11 +5,12 @@ import { isUsernameValid } from '../../../shared/isValidUsername';
 import { InputGroup } from '../../../UI/input/input';
 
 import './register-inputs.scss';
+import { isValidPassword } from '../../../shared/isValidPassword';
 
 export class RegisterInputs extends BaseComponent {
   checkInputs: () => void = () => {};
 
-  constructor(public state: IUserData) {
+  constructor(public state: IUserData, private type: string) {
     super('div', ['form__inputs']);
 
     this.state = state;
@@ -49,6 +50,20 @@ export class RegisterInputs extends BaseComponent {
     return res;
   };
 
+  private passwordValidation: (event: Event) => void = (event) => {
+    const { value } = event.target as HTMLInputElement;
+    const res = isValidPassword(value);
+
+    if (res === true) {
+      this.state.password = value;
+    } else {
+      this.state.password = '';
+    }
+
+    this.checkInputs();
+    return res;
+  };
+
   render(): void {
     const firstName = new InputGroup('First Name');
     firstName.handleInput = (event) => this.userNameValidation(event, 'name');
@@ -59,6 +74,13 @@ export class RegisterInputs extends BaseComponent {
     const email = new InputGroup('Email');
     email.handleInput = (event) => this.emailValidation(event);
 
-    this.element.append(firstName.element, lastName.element, email.element);
+    const password = new InputGroup('Password');
+    password.handleInput = (event) => this.passwordValidation(event);
+
+    this.element.append(
+      ...(this.type === 'register'
+        ? [firstName.element, lastName.element, email.element, password.element]
+        : [email.element, password.element]),
+    );
   }
 }

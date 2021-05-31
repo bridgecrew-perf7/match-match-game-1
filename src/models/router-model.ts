@@ -1,4 +1,4 @@
 export interface IRoute {
-  name: string,
-  component(): void
+  name: string;
+  component(): void;
 }

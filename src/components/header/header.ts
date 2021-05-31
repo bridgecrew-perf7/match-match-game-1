@@ -6,6 +6,7 @@ import { HeaderProfile } from './heder-profile/header-profile';
 
 export class Header extends BaseComponent {
   showRegisterPopup: () => void = () => {};
+  showSignInPopup: () => void = () => {};
   updateButtons: () => void = () => {};
   startGame: () => void = () => {};
   private headerLogo: HeaderLogo;
@@ -33,9 +34,8 @@ export class Header extends BaseComponent {
       'container-fluid',
     ]);
 
-    this.headerProfile.showRegisterPopup = () => {
-      this.showRegisterPopup();
-    };
+    this.headerProfile.showRegisterPopup = () => this.showRegisterPopup();
+    this.headerProfile.showSignInPopup = () => this.showSignInPopup();
 
     this.headerProfile.startGame = () => this.startGame();
     this.updateButtons = () => this.headerProfile.render();
