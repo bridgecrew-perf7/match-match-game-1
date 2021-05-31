@@ -74,7 +74,9 @@ export class Game extends BaseComponent {
 
     if (user) {
       const res = JSON.parse(user);
-      res.score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
+      let score = (compares - this.notCorrectAnswers) * 100 - timeInSeconds;
+      if (score < 0) score = 0;
+      res.score = score;
       database.updateScore(res);
     }
 
