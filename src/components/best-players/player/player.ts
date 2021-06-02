@@ -1,7 +1,7 @@
 import { IPlayer } from '../../../models/player-model';
 import { BaseComponent } from '../../../utils/base-component';
+import { config } from './../../../_config/index';
 import './player.scss';
-
 export class Player extends BaseComponent {
   constructor(readonly player: IPlayer) {
     super('div', ['best-players__item', 'player']);
@@ -11,7 +11,7 @@ export class Player extends BaseComponent {
   }
 
   render(): void {
-    const anonymousImage = '/assets/upload-image/user.png';
+    const anonymousImage = config.ANONYMOUS_IMAGE;
     const { name, surname, email, score, img } = this.player;
 
     this.element.innerHTML = `
